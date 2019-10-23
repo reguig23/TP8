@@ -5,8 +5,10 @@
  */
 package servlet;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import simplejdbc.CustomerEntity;
 import simplejdbc.DAO;
+
 import simplejdbc.DataSourceFactory;
  
 @WebServlet(name = "ShowClient", urlPatterns = {"/ShowClient"})
@@ -43,6 +46,16 @@ public class ShowClient extends HttpServlet {
             out.println("<title>Servlet ShowClient</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<select name=state>");
+            ListeEtat etat=new ListeEtat(DataSourceFactory.getDataSource());
+            ArrayList<String> liste=etat.listetat();
+            for (int i=0;i<liste.size();i++){
+                out.println(" <option value=\""+liste.get(i)+"\">"+liste.get(i)+"</option>");
+              
+      
+            }
+            out.println("</select>");
+            out.println(" <input href=\" http://localhost:10080/TP8/ShowClient?state=\" type=\"submit\" value=\"Submit\">");
             out.println("<table style=\"border: 1px solid black\">");
             try {   // Trouver la valeur du paramètre HTTP customerID
                 String val = request.getParameter("state");
